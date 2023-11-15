@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Tarea } from '../tarea';
 import { FirestoreService } from '../firestore.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-home',
@@ -10,8 +11,16 @@ import { FirestoreService } from '../firestore.service';
 export class HomePage {
 
   tareaEditando= {} as Tarea;
+  arrayColeccionTareas: any = [{
+    id: "",
+    tarea: {} as Tarea
+  }
 
-  constructor(private firestoreService: FirestoreService) {}
+  ];
+
+  constructor(private firestoreService: FirestoreService) {
+  this.obtenerListaTareas();
+  }
 
   clicBotonInsertar(){
     console.log("Entra en clicBotonInsertar");
@@ -23,4 +32,17 @@ export class HomePage {
     console.error(error);
   });
   }
+
+  obtenerListaTareas() {
+    this.firestoreService.consultar("tareas").subscribe((datosRecibidos) => {
+      this.arrayColeccionTareas = [];
+      datosRecibidos.forEach((datosTarea) => {
+        this.arrayColeccionTareas.push({
+          id: datosTarea.payload.doc.id,
+          tarea: datosTarea.payload.doc.data()
+        });
+      });
+    });
+  }
+  
 }
