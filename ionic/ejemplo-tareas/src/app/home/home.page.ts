@@ -15,9 +15,8 @@ export class HomePage {
     id: "",
     tarea: {} as Tarea
   }
-
   ];
-
+  idTareaSelect: string= "";
   constructor(private firestoreService: FirestoreService) {
   this.obtenerListaTareas();
   }
@@ -42,6 +41,23 @@ export class HomePage {
           tarea: datosTarea.payload.doc.data()
         });
       });
+    });
+  }
+
+  selectTarea(idTarea:string, tareaSelect:Tarea) {
+
+    this.tareaEditando = tareaSelect;
+    this.idTareaSelect = idTarea;
+    
+  }
+  
+  clicBotonBorrar() {
+    this.firestoreService.borrar("tareas", this.idTareaSelect).then(() => {
+      console.log("Tarea borrada correctamente")
+      this.idTareaSelect = "";
+      this.tareaEditando = {} as Tarea;
+    }, (error) => {
+      console.error(error);
     });
   }
   

@@ -20,11 +20,11 @@
   <ion-input [(ngModel)]="tareaEditando.descripcion"></ion-input>
 
   <ion-button (click)="clicBotonInsertar()">Añadir Tarea</ion-button>
-
+  <ion-button (click)="clicBotonBorrar()">Borrar Tarea</ion-button>
 
   <h1>LISTA DE TAREAS</h1>
   <ion-list>
-    <ion-item *ngFor="let documentTarea of arrayColeccionTareas">
+    <ion-item *ngFor="let documentTarea of arrayColeccionTareas" (click)="selectTarea(documentTarea.id,documentTarea.tarea)">
       <ion-grid>
         <ion-row>
       <h2>{{documentTarea.tarea.titulo}}</h2>
